@@ -8,6 +8,7 @@ int main() {
     success &= test_utils_convert_subnet_to_bin();
     success &= test_utils_convert_bin_to_subnet();
     success &= test_network_tree_insert_and_retrieve();
+    success &= test_network_tree_squish();
     if (success) {
         std::clog << "=== All Test Passed ===\n";
     } else {

@@ -34,6 +34,14 @@ private:
         }
     }
 
+    void release_children()
+    {
+        next_0.release();
+        next_0 = nullptr;
+        next_1.release();
+        next_1 = nullptr;
+    }
+
 public:
     network_tree() : value(sentinel), present(false) {}
     network_tree(char value) : value(value), present(false) {}
@@ -65,6 +73,27 @@ public:
     void add_network(const std::string &subnet)
     {
         add_network(subnet, 0);
+    }
+
+    void squish()
+    {
+        if (present)
+        {
+            release_children();
+            return;
+        }
+
+        if (next_0 != nullptr)
+            next_0->squish();
+        if (next_1 != nullptr)
+            next_1->squish();
+        bool present_0 = (next_0 != nullptr && next_0->present);
+        bool present_1 = (next_1 != nullptr && next_1->present);
+        if (present_0 && present_1)
+        {
+            release_children();
+            present = true;
+        }
     }
 
     void dump(std::vector<std::string> &result) const
