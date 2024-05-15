@@ -23,3 +23,9 @@ target_link_libraries(
     PUBLIC test_network_tree
     PUBLIC test_utils
 )
+
+install(
+    TARGETS ${PROJECT_NAME} 
+    DESTINATION bin
+    PERMISSIONS WORLD_EXECUTE
+)

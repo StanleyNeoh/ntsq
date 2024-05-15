@@ -6,6 +6,9 @@ run: build
 test: build
 	./build/test_ntsq
 
+install: build
+	cmake --install ./build
+
 build: generate
 	cmake --build ./build
 
