@@ -1,4 +1,5 @@
 #include "network_tree.hpp"
+#include "utils.hpp"
 
 #include <vector>
 #include <iostream>
@@ -10,7 +11,12 @@ int main(int argc, char* argv[]) {
     std::string line;
     while (std::getline(std::cin, line)) {
         if (line == "end") break;
-        ntwk_tree.add_network(std::move(line), 0);
+        std::string binstr;
+        if (!convert_subnet_to_bin(line, binstr)) {
+            std::cout << "Unable to convert " << line << '\n';
+            continue;
+        }
+        ntwk_tree.add_network(std::move(binstr), 0);
     }
 
     std::vector<std::string> result;
