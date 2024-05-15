@@ -10,19 +10,17 @@
 class network_tree
 {
 private:
+    static const char sentinel = '?';
+    bool present;
     char value;
     std::unique_ptr<network_tree> next_0;
     std::unique_ptr<network_tree> next_1;
 
-    void dump_reversed(std::vector<std::string> &result)
+    void dump_reversed(std::vector<std::string> &result) const
     {
-        if (next_0 == nullptr && next_1 == nullptr)
-        {
-            result.push_back(std::string(1, value));
-            return;
-        }
-
         std::vector<std::string> temp;
+        if (present)
+            temp.push_back("");
         if (next_0 != nullptr)
             next_0->dump_reversed(temp);
         if (next_1 != nullptr)
@@ -30,20 +28,21 @@ private:
         int len = temp.size();
         for (int i = 0; i < len; i++)
         {
-            if (value != '?')
+            if (value != sentinel)
                 temp[i] += value;
             result.push_back(temp[i]);
         }
     }
 
 public:
-    network_tree() : value('?') {}
-    network_tree(char value) : value(value) {}
+    network_tree() : value(sentinel), present(false) {}
+    network_tree(char value) : value(value), present(false) {}
 
     void add_network(const std::string &subnet, int ind)
     {
         if (ind >= subnet.size())
         {
+            present = true;
             return;
         }
         if (subnet[ind] == '0')
@@ -63,8 +62,12 @@ public:
             next_1->add_network(subnet, ind + 1);
         }
     }
+    void add_network(const std::string &subnet)
+    {
+        add_network(subnet, 0);
+    }
 
-    void dump(std::vector<std::string> &result)
+    void dump(std::vector<std::string> &result) const
     {
         std::vector<std::string> temp;
         dump_reversed(temp);
