@@ -12,5 +12,5 @@ build: generate
 generate:
 	cmake -S src -B build
 
-.PHONY: generate build
+.PHONY: run test generate build 
     
