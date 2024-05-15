@@ -1,4 +1,4 @@
-all: run
+all: build
 
 run: build
 	./build/ntsq
@@ -7,7 +7,7 @@ test: build
 	./build/test_ntsq
 
 build: generate
-	cd build; make
+	cmake --build ./build
 
 generate:
 	cmake -S src -B build
