@@ -74,14 +74,11 @@ bool convert_subnet_to_bin(const std::string &subnet, std::string &binstr)
 std::string convert_bin_to_subnet(const std::string &binary)
 {
     size_t netsize = binary.size();
-    std::string seg_1_bin = netsize > 0 ? binary.substr(0, 8) : "0";
-    std::string seg_2_bin = netsize > 8 ? binary.substr(8, 8) : "0";
-    std::string seg_3_bin = netsize > 16 ? binary.substr(16, 8) : "0";
-    std::string seg_4_bin = netsize > 24 ? binary.substr(24, 8) : "0";
-    std::string seg_1 = std::to_string(from_byte_str(seg_1_bin));
-    std::string seg_2 = std::to_string(from_byte_str(seg_2_bin));
-    std::string seg_3 = std::to_string(from_byte_str(seg_3_bin));
-    std::string seg_4 = std::to_string(from_byte_str(seg_4_bin));
+    const std::string full_binary = binary + std::string(32-netsize, '0');
+    std::string seg_1 = std::to_string(from_byte_str(full_binary.substr(0, 8)));
+    std::string seg_2 = std::to_string(from_byte_str(full_binary.substr(8, 8)));
+    std::string seg_3 = std::to_string(from_byte_str(full_binary.substr(16, 8)));
+    std::string seg_4 = std::to_string(from_byte_str(full_binary.substr(24, 8)));
     std::string size = std::to_string(netsize);
     return seg_1 + '.' + seg_2 + '.' + seg_3 + '.' + seg_4 + '/' + size;
 }
